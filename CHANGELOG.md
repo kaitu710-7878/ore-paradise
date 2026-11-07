@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [0.1.2-alpha] - 2026-11-07
+
+### Fixed / 修正
+- **Eliminated Ghost Blocks on Return (帰還時のゴーストブロック増殖・右クリック消滅現象の根絶)**
+  - Removed duplicate packet calls (`player.connection.teleport`) immediately after dimension change to prevent client-side desync and orphaned render sections from previous dimensions.
+  - ディメンション切り替え直後の不要な `player.connection.teleport` 重複呼び出しを完全に削除し、クライアント側での旧ディメンション残像（ゴーストブロック）の残留を防止。
+  - Restricted interaction handling strictly to `InteractionHand.MAIN_HAND` to avoid double-execution and unintentional placement predictions from offhand.
+  - ブロック操作処理をメインハンド（`MAIN_HAND`）に厳密限定し、オフハンドとの重複実行やクライアント側での誤った設置予測を遮断。
+  - Added proactive surrounding block synchronization (`syncSurroundingBlocks`) around landing positions and return targets, forcing the client to instantly refresh actual world state and eradicate any phantom blocks upon arrival.
+  - テレポート着地地点および帰還先抽出機の周囲に対してブロック強制同期パケットを発行し、クライアント上のファントムブロックを即座に消滅させる安全機構を追加。
+
+---
+
 ## [0.1.1-alpha] - 2026-11-07
 
 ### Added / 追加
