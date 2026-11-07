@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "ore_paradise:block/multi_phase_ore_extractor"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "ore_paradise:ore_dimension_type",
+  "generator": {
+    "type": "ore_paradise:ore_chunk_generator",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "ore_paradise:ore_paradise_biome"
+    }
+  }
+}

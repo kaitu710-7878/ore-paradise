@@ -1,0 +1,11 @@
+{
+  "block.ore_paradise.multi_phase_ore_extractor": "Multi-phase transition type ore extractor",
+  "itemGroup.ore_paradise": "Ore Paradise",
+  "tooltip.ore_paradise.multi_phase_ore_extractor.desc1": "Extracts 64 random ore items per tick into adjacent storage.",
+  "tooltip.ore_paradise.multi_phase_ore_extractor.desc2": "Sneak + Right-Click to travel to/from the Ore Dimension.",
+  "message.ore_paradise.teleport_success": "§aTransferred to the Ore Dimension! A return extractor has been generated.",
+  "message.ore_paradise.return_success": "§aReturned safely from the Ore Dimension.",
+  "message.ore_paradise.shift_click_hint": "§e[Ore Paradise] Sneak + Right-Click to teleport to the Ore Dimension.",
+  "message.ore_paradise.dimension_not_found": "§cCould not find the Ore Dimension level.",
+  "biome.ore_paradise.ore_paradise_biome": "Ore Paradise"
+}

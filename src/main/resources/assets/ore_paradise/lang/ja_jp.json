@@ -1,0 +1,11 @@
+{
+  "block.ore_paradise.multi_phase_ore_extractor": "多相転移型鉱石抽出機",
+  "itemGroup.ore_paradise": "鉱石パラダイス (Ore Paradise)",
+  "tooltip.ore_paradise.multi_phase_ore_extractor.desc1": "1tickあたりランダムな鉱石アイテム1種を64個、隣接するストレージへ格納します。",
+  "tooltip.ore_paradise.multi_phase_ore_extractor.desc2": "スニーク右クリックで鉱石ディメンションへ移動／帰還します。",
+  "message.ore_paradise.teleport_success": "§a鉱石ディメンションへ転移しました！帰還用抽出機を生成しました。",
+  "message.ore_paradise.return_success": "§a鉱石ディメンションから無事帰還しました。",
+  "message.ore_paradise.shift_click_hint": "§e[Ore Paradise] スニーク右クリックで鉱石ディメンションへテレポートできます。",
+  "message.ore_paradise.dimension_not_found": "§c鉱石ディメンションが見つかりませんでした。",
+  "biome.ore_paradise.ore_paradise_biome": "鉱石パラダイス"
+}
