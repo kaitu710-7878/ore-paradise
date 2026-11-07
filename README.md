@@ -30,7 +30,7 @@
 
 ### Installation
 1. Install **Minecraft Forge 1.20.1** (recommended version 47.3.0 or higher).
-2. Place the built jar file (`ore_paradise-0.1.2-alpha.jar`) into your Minecraft `mods` folder.
+2. Place the built jar file (`ore_paradise-0.1.3-alpha.jar`) into your Minecraft `mods` folder.
 3. Launch Minecraft and enjoy!
 
 ### License
@@ -64,7 +64,7 @@ This mod is licensed under the **GNU General Public License v3.0 (GPL-3.0-or-lat
 
 ### 導入手順
 1. **Minecraft Forge 1.20.1**（推奨バージョン: 47.3.0以上）を導入します。
-2. ビルドされたJARファイル（`ore_paradise-0.1.2-alpha.jar`）を `.minecraft/mods` フォルダに配置します。
+2. ビルドされたJARファイル（`ore_paradise-0.1.3-alpha.jar`）を `.minecraft/mods` フォルダに配置します。
 3. ゲームを起動してお楽しみください。
 
 ### ライセンス

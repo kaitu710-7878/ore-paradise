@@ -102,6 +102,11 @@ public class MultiPhaseOreExtractorBlock extends Block implements EntityBlock {
                 returnTargetPos = extractorBe.getReturnPos();
             }
 
+            // Clean up return extractor in Ore Dimension to prevent ghost blocks at y=64 in destination
+            currentLevel.removeBlockEntity(pos);
+            currentLevel.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+            player.connection.send(new ClientboundBlockUpdatePacket(currentLevel, pos));
+
             ResourceKey<Level> targetKey = returnDim != null
                     ? ResourceKey.create(Registries.DIMENSION, returnDim)
                     : Level.OVERWORLD;
@@ -149,7 +154,7 @@ public class MultiPhaseOreExtractorBlock extends Block implements EntityBlock {
 
             executeSafeTeleport(player, targetLevel, targetX, targetY, targetZ);
 
-            // Force block sync around destination to eliminate any residual ghost blocks
+            // Force block sync around destination
             BlockPos landingPos = new BlockPos((int) Math.floor(targetX), (int) Math.floor(targetY), (int) Math.floor(targetZ));
             syncSurroundingBlocks(player, targetLevel, landingPos);
             if (returnTargetPos != null) {
@@ -197,8 +202,6 @@ public class MultiPhaseOreExtractorBlock extends Block implements EntityBlock {
     private static void executeSafeTeleport(ServerPlayer player, ServerLevel targetLevel, double x, double y, double z) {
         player.setDeltaMovement(Vec3.ZERO);
         player.resetFallDistance();
-        // ServerPlayer.teleportTo internally handles changeDimension and player position packet cleanly.
-        // Never call player.connection.teleport right after, as it causes duplicate packets and ghost rendering!
         player.teleportTo(targetLevel, x, y, z, player.getYRot(), player.getXRot());
         player.containerMenu.broadcastChanges();
     }
@@ -224,7 +227,8 @@ public class MultiPhaseOreExtractorBlock extends Block implements EntityBlock {
 
             boolean isAir = level.getBlockState(candidate).isAir() || !level.getBlockState(candidate).blocksMotion();
             boolean isAboveAir = level.getBlockState(above).isAir() || !level.getBlockState(above).blocksMotion();
-            boolean isBelowSolid = level.getBlockState(below).isSolid();
+            // Support standing on solid ground, leaves, or any sturdy surface
+            boolean isBelowSolid = !level.getBlockState(below).isAir() && (level.getBlockState(below).isSolid() || level.getBlockState(below).blocksMotion());
 
             if (isAir && isAboveAir && isBelowSolid) {
                 return candidate;
