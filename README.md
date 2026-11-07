@@ -24,9 +24,13 @@
    - **Zero Mob Spawns:** Mobs will never spawn in this dimension, ensuring a tranquil and safe environment.
    - **Safe Transit:** Transferring to the Ore Dimension automatically places a return extractor right beside you, pre-linked to your departure coordinates for an effortless journey back.
 
+3. **Almost Unified Integration**
+   - Built-in soft-dependency integration with **Almost Unified**.
+   - When Almost Unified is installed, duplicate ores from different mods (such as multiple uranium ores) are automatically unified into the single dominant variant in both dimension generation and extractor output.
+
 ### Installation
 1. Install **Minecraft Forge 1.20.1** (recommended version 47.3.0 or higher).
-2. Place the built jar file (`ore_paradise-0.1.0-alpha.jar`) into your Minecraft `mods` folder.
+2. Place the built jar file (`ore_paradise-0.1.1-alpha.jar`) into your Minecraft `mods` folder.
 3. Launch Minecraft and enjoy!
 
 ### License
@@ -54,9 +58,13 @@ This mod is licensed under the **GNU General Public License v3.0 (GPL-3.0-or-lat
    - **モブスポーン完全無効:** モブが一切スポーンしないため、安全かつ快適に作業や採掘が行えます。
    - **自動帰還ポイント生成:** 移動時にプレイヤーの目の前へ帰還用の多相転移型鉱石抽出機が自動配置され、元のディメンション・座標が記憶されているため、いつでも安全に元の場所へ戻ることができます。
 
+3. **Almost Unified 連携対応**
+   - **Almost Unified** との自動ソフト連携を標準搭載。
+   - Almost Unified が導入されている場合、複数MODによる重複鉱石（例: 複数種類のウラン鉱石など）を、ディメンション生成・チェスト格納の両方で代表の1種類に自動統合します。
+
 ### 導入手順
 1. **Minecraft Forge 1.20.1**（推奨バージョン: 47.3.0以上）を導入します。
-2. ビルドされたJARファイル（`ore_paradise-0.1.0-alpha.jar`）を `.minecraft/mods` フォルダに配置します。
+2. ビルドされたJARファイル（`ore_paradise-0.1.1-alpha.jar`）を `.minecraft/mods` フォルダに配置します。
 3. ゲームを起動してお楽しみください。
 
 ### ライセンス

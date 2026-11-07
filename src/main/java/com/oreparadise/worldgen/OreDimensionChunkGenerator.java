@@ -1,5 +1,6 @@
 package com.oreparadise.worldgen;
 
+import com.oreparadise.compat.AlmostUnifiedHelper;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
@@ -8,7 +9,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.RandomSource;
 import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.LevelHeightAccessor;
@@ -31,7 +31,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.tags.ITag;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
@@ -85,19 +87,22 @@ public class OreDimensionChunkGenerator extends ChunkGenerator {
         }
         lastCacheCheck = now;
 
-        List<BlockState> list = new ArrayList<>();
+        Set<BlockState> unifiedSet = new LinkedHashSet<>();
         try {
             ITag<Block> tag = ForgeRegistries.BLOCKS.tags().getTag(ORES_TAG);
             if (tag != null && !tag.isEmpty()) {
-                tag.stream().forEach(block -> list.add(block.defaultBlockState()));
+                tag.stream().forEach(block -> {
+                    BlockState unifiedState = AlmostUnifiedHelper.getUnifiedBlockState(block.defaultBlockState());
+                    unifiedSet.add(unifiedState);
+                });
             }
         } catch (Exception ignored) {
         }
 
-        if (list.isEmpty()) {
+        if (unifiedSet.isEmpty()) {
             cachedOreStates = FALLBACK_ORES;
         } else {
-            cachedOreStates = list;
+            cachedOreStates = new ArrayList<>(unifiedSet);
         }
         return cachedOreStates;
     }
@@ -114,7 +119,6 @@ public class OreDimensionChunkGenerator extends ChunkGenerator {
             int minX = chunk.getPos().getMinBlockX();
             int minZ = chunk.getPos().getMinBlockZ();
 
-            // Use coordinate-based hash for deterministic and fast pseudo-random generation
             for (int x = 0; x < 16; x++) {
                 int worldX = minX + x;
                 for (int z = 0; z < 16; z++) {
@@ -124,10 +128,9 @@ public class OreDimensionChunkGenerator extends ChunkGenerator {
                     pos.set(worldX, -64, worldZ);
                     chunk.setBlockState(pos, bedrockState, false);
 
-                    // y = -63 to 63 are random forge:ores
+                    // y = -63 to 63 are unified random forge:ores
                     for (int y = -63; y <= 63; y++) {
                         pos.set(worldX, y, worldZ);
-                        // Hash coordinate to select ore state
                         int hash = hashCoords(worldX, y, worldZ);
                         int index = Math.abs(hash % oreCount);
                         chunk.setBlockState(pos, oreStates.get(index), false);
@@ -146,23 +149,19 @@ public class OreDimensionChunkGenerator extends ChunkGenerator {
 
     @Override
     public void buildSurface(WorldGenRegion level, StructureManager structureManager, RandomState random, ChunkAccess chunk) {
-        // Flat surface already generated in fillFromNoise
     }
 
     @Override
     public void applyCarvers(WorldGenRegion level, long seed, RandomState random, BiomeManager biomeManager,
                              StructureManager structureManager, ChunkAccess chunk, GenerationStep.Carving step) {
-        // No caves/carvers
     }
 
     @Override
     public void applyBiomeDecoration(net.minecraft.world.level.WorldGenLevel level, ChunkAccess chunk, StructureManager structureManager) {
-        // No biome decoration
     }
 
     @Override
     public void spawnOriginalMobs(WorldGenRegion level) {
-        // No mobs spawn
     }
 
     @Override
@@ -208,7 +207,6 @@ public class OreDimensionChunkGenerator extends ChunkGenerator {
     @Override
     public WeightedRandomList<MobSpawnSettings.SpawnerData> getMobsAt(Holder<Biome> biome, StructureManager structureManager,
                                                                     MobCategory category, BlockPos pos) {
-        // No mobs spawn anywhere in this dimension
         return WeightedRandomList.create();
     }
 }

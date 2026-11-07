@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [0.1.1-alpha] - 2026-11-07
+
+### Added / 追加
+- **Almost Unified Integration (Almost Unified 連携)**
+  - Added seamless soft-dependency compatibility with Almost Unified.
+  - Almost Unified とのソフト依存連携を実装。
+  - Automatically unifies duplicate ores (e.g. multiple uranium ores from different mods) into the single preferred/dominant variant for both dimension generation and extractor output.
+  - ディメンション生成および抽出機からの出力の両方において、重複する鉱石（複数MODのウラン鉱石など）を自動的に代表の1種類に統一。
+
+### Fixed / 修正
+- **Invisible Collision & Jittering on Return (帰還時の透明当たり判定・ガクガク現象の解消)**
+  - Migrated `MultiPhaseOreExtractorBlock` from `BaseEntityBlock` to `Block implements EntityBlock` to guarantee standard baked model rendering across all optimization mods (Embeddium, Sodium, etc.).
+  - `BaseEntityBlock` から `Block implements EntityBlock` 構成へ刷新し、描画最適化MOD環境下でも通常ブロックとして確実に描画されるよう修正。
+  - Added network sync packets (`getUpdatePacket`, `getUpdateTag`, `onDataPacket`) to the block entity for proper client-server data synchronization.
+  - ブロックエンティティにクライアント・サーバー間のデータ同期パケットを実装。
+  - Improved return teleportation logic with safe adjacent landing detection, preloading destination chunks, and explicit client-side position sync packets (`connection.teleport`) to completely eliminate collision box overlap, slowdown, and jittering.
+  - 帰還時のテレポート処理を改善し、隣接する安全な足場への着地判定、チャンク事前読み込み、クライアント位置同期パケットの発行により、ブロック埋まり・減速・ガクガク現象を完全に解消。
+
+---
+
 ## [0.1.0-alpha] - 2026-11-07
 
 ### Added / 追加

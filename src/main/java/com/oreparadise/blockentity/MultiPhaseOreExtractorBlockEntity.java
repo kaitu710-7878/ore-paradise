@@ -1,11 +1,14 @@
 package com.oreparadise.blockentity;
 
+import com.oreparadise.compat.AlmostUnifiedHelper;
 import com.oreparadise.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -22,7 +25,9 @@ import net.minecraftforge.registries.tags.ITag;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MultiPhaseOreExtractorBlockEntity extends BlockEntity {
     public static final TagKey<Item> ORES_TAG = TagKey.create(Registries.ITEM, new ResourceLocation("forge", "ores"));
@@ -67,6 +72,9 @@ public class MultiPhaseOreExtractorBlockEntity extends BlockEntity {
         this.returnDimension = dimension;
         this.returnPos = pos;
         setChanged();
+        if (level != null && !level.isClientSide()) {
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+        }
     }
 
     @Nullable
@@ -86,19 +94,22 @@ public class MultiPhaseOreExtractorBlockEntity extends BlockEntity {
         }
         lastCacheCheck = now;
 
-        List<Item> items = new ArrayList<>();
+        Set<Item> unifiedSet = new LinkedHashSet<>();
         try {
             ITag<Item> tag = ForgeRegistries.ITEMS.tags().getTag(ORES_TAG);
             if (tag != null && !tag.isEmpty()) {
-                tag.stream().forEach(items::add);
+                tag.stream().forEach(item -> {
+                    Item unified = AlmostUnifiedHelper.getUnifiedItem(item);
+                    unifiedSet.add(unified);
+                });
             }
         } catch (Exception ignored) {
         }
 
-        if (items.isEmpty()) {
+        if (unifiedSet.isEmpty()) {
             cachedOreItems = FALLBACK_ORE_ITEMS;
         } else {
-            cachedOreItems = items;
+            cachedOreItems = new ArrayList<>(unifiedSet);
         }
         return cachedOreItems;
     }
@@ -163,6 +174,26 @@ public class MultiPhaseOreExtractorBlockEntity extends BlockEntity {
             returnPos = NbtUtils.readBlockPos(tag.getCompound("ReturnPos"));
         } else {
             returnPos = null;
+        }
+    }
+
+    @Override
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag() {
+        CompoundTag tag = new CompoundTag();
+        saveAdditional(tag);
+        return tag;
+    }
+
+    @Override
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+        CompoundTag tag = pkt.getTag();
+        if (tag != null) {
+            load(tag);
         }
     }
 }
