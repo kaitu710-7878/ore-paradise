@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [0.2.0-beta] - 2026-11-21
+
+### Changed / 変更
+- **Promoted to Beta Release (ベータ版へ昇格)**
+  - Promoted release channel from Alpha to Beta after verifying core extractor mechanics, Ore Dimension generation, Almost Unified compatibility, ghost block resolution, and block loot table drops.
+  - 鉱石抽出機の基本機能、鉱石ディメンション生成、Almost Unified連携、ゴーストブロック解消、およびブロックルートテーブル対応の実装完了に伴い、リリース種別をAlphaからBetaへ昇格。
+
+---
+
 ## [0.1.4-alpha] - 2026-11-21
 
 ### Fixed / 修正
