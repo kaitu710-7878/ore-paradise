@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [0.1.4-alpha] - 2026-11-21
+
+### Fixed / 修正
+- **Added Missing Block Loot Table (鉱石抽出機のルートテーブル追加)**
+  - Added `data/ore_paradise/loot_tables/blocks/multi_phase_ore_extractor.json` so that breaking the Multi-phase transition type ore extractor with a pickaxe properly drops the block item.
+  - 多相転移型鉱石抽出機（`multi_phase_ore_extractor`）をツルハシで破壊した際にブロックアイテムをドロップするよう、ルートテーブルを正式に追加。
+
+---
+
 ## [0.1.3-alpha] - 2026-11-07
 
 ### Fixed / 修正
